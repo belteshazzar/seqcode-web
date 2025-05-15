@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>seqcode.app</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="manifest" href="/img/site.webmanifest">
+  </head>
+  <body>
+    <main>
+        <div id="diagram-container">
+            <div id="diagram"></div>
+        </div>
+        <div id="editor-container">
+            <nav id="main-menu">
+                <ul>
+                    <li><a id="saveAsSVG" href="#" download="seqcode.svg">Save as SVG</a></li>
+                    <li><a id="saveAsPNG" href="#" download="seqcode.png">Save as PNG</a></li>
+                    <li><a id="saveAsTXT" href="#" download="diagram.seqcode">Save as TXT</a></li>
+                    <li><a href="#">Docs</a></li>
+                    <li><a href="#">Examples</a></li>
+                    <li><a href="#"><img src="/img/github-mark-white.svg" width="16" height="16"></a></li>
+                </ul>
+            </nav>
+            <div id="editor"></div>
+        </div>
+    </main>
+    <pre id="seqcode">
+---
+    </pre>
+    <script type="module" src="/src/index.js"></script>
+  </body>
+</html>
