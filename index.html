@@ -15,24 +15,58 @@
   <body>
     <main>
         <div id="diagram-container">
-            <div id="diagram"></div>
+            <div id="table">
+                <div id="cell">
+                    <div id="diagram"></div>
+                </div>
+            </div>
         </div>
         <div id="editor-container">
-            <nav id="main-menu">
-                <ul>
-                    <li><a id="saveAsSVG" href="#" download="seqcode.svg">Save as SVG</a></li>
-                    <li><a id="saveAsPNG" href="#" download="seqcode.png">Save as PNG</a></li>
-                    <li><a id="saveAsTXT" href="#" download="diagram.seqcode">Save as TXT</a></li>
-                    <li><a href="#">Docs</a></li>
-                    <li><a href="#">Examples</a></li>
-                    <li><a href="#"><img src="/img/github-mark-white.svg" width="16" height="16"></a></li>
-                </ul>
-            </nav>
+            <div class="navbar">
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">File</a>
+                    <div class="dropdown-content">
+                        <a id="saveAsSVG" href="#" download="seqcode.svg">Save as SVG</a>
+                        <a id="saveAsPNG" href="#" download="seqcode.png">Save as PNG</a>
+                        <a id="saveAsTXT" href="#" download="diagram.seqcode">Save as TXT</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Help</a>
+                    <div class="dropdown-content">
+                        <a href="/diagrams/basics">Basics</a>
+                        <a href="/diagrams/objects">Objects</a>
+                        <a href="/diagrams/notes">Notes</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Reference</a>
+                    <div class="dropdown-content">
+                        <a href="/diagrams/uml-sequence-diagrams">Sequence Diagrams</a>
+                        <a href="/diagrams/uml-life-lines">Life Lines</a>
+                        <a href="/diagrams/uml-invocation">Invocations</a>
+                        <a href="/diagrams/uml-messages">Messages</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">About</a>
+                    <div class="dropdown-content">
+                        <a href="https://github.com/belteshazzar/seqcode">Github Repo</a>
+                    </div>
+                </div>
+            </div>
             <div id="editor"></div>
         </div>
     </main>
     <pre id="seqcode">
----
+
+a.b()
+
+note(450,10,200,note 1 ) # comment
+note(450,90,200, note 2 ) note(50,90,200, note 3 )
+
+
+
     </pre>
     <script type="module" src="/src/index.js"></script>
   </body>

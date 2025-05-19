@@ -28,12 +28,8 @@
     "@codemirror/view": "^6.36.7",
     "@fsegurai/codemirror-theme-bundle": "^6.1.4",
     "@lezer/lr": "^1.4.2",
-    "body-parser": "^2.2.0",
     "codemirror": "^6.0.1",
     "codemirror-lang-seqcode": "^0.1.0",
-    "entities": "^6.0.0",
-    "express": "^5.1.0",
-    "seqcode": "^0.1.0",
-    "short-uuid": "^5.2.0"
+    "seqcode": "^0.1.7"
   }
 }
