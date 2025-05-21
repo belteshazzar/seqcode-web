@@ -2,22 +2,33 @@ html,body {
     padding:0;
     margin:0;
     height:100%;
+    overflow: hidden;
 }
 
 body {
     width:100%;
 }
 
+#show-editor {
+    position: fixed;
+    display: none;
+    top: 20px;
+    right: 20px;
+    background-color: #666;
+}
+
 main {
-    width:100%;
-    height:100%;
+    width:200%;
+    height:100vh;
     display: flex;
     flex-direction: row;
+    align-items: start;
 }
 
 main > div {
-    width:50%;
+    width:25%;
     height:100vh;
+    overflow: hidden;
 }
 
 pre {
@@ -28,7 +39,13 @@ pre {
     padding: 0;
     overflow: scroll;
     background-color: #555;
+    transition: all 0.5s allow-discrete;
 }
+
+#diagram-container.full-width {
+    width: 50%;
+}
+
 #table {
     display: table;
     width: 100%;
@@ -43,6 +60,7 @@ pre {
 #diagram {
     margin: 0 auto;
 }
+
 #diagram svg {
 }
 
@@ -103,8 +121,18 @@ pre {
 
 #editor {
     overflow: scroll;
+    height: 100%;
+
+    transition: all 5s;
+    position: relative;
+    top: 0;
+}
+
+#editor.full-width {
+    position: relative;
+    top: 100vh;
 }
 
 .cm-editor {
-/*    height: 100%;*/
+    height: 100%;
 }

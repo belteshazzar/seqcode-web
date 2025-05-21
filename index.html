@@ -32,6 +32,15 @@
                     </div>
                 </div>
                 <div class="dropdown">
+                    <a href="#" class="dropbtn">View</a>
+                    <div class="dropdown-content">
+                        <a id="hideEditor" href="#">Hide Editor</a>
+                        <a id="zoomIn" href="#">Zoom In</a>
+                        <a id="zoomOut" href="#">Zoom Out</a>
+                        <a id="zoomActual" href="#">Actual Size</a>
+                    </div>
+                </div>
+                <div class="dropdown">
                     <a href="#" class="dropbtn">Help</a>
                     <div class="dropdown-content">
                         <a href="/diagrams/basics">Basics</a>
@@ -43,9 +52,10 @@
                     <a href="#" class="dropbtn">Reference</a>
                     <div class="dropdown-content">
                         <a href="/diagrams/uml-sequence-diagrams">Sequence Diagrams</a>
-                        <a href="/diagrams/uml-life-lines">Life Lines</a>
-                        <a href="/diagrams/uml-invocation">Invocations</a>
-                        <a href="/diagrams/uml-messages">Messages</a>
+                        <a href="/diagrams/uml-life-lines">+ Life Lines</a>
+                        <a href="/diagrams/uml-invocation">+ Invocations</a>
+                        <a href="/diagrams/uml-messages">+ Messages</a>
+                        <a href="/diagrams/design-patterns">Design Patterns</a>
                     </div>
                 </div>
                 <div class="dropdown">
@@ -58,15 +68,11 @@
             <div id="editor"></div>
         </div>
     </main>
+    <div id="show-editor" class="dropdown">
+        <a href="#" class="dropbtn">Edit</a>
+    </div>
     <pre id="seqcode">
-
-a.b()
-
-note(450,10,200,note 1 ) # comment
-note(450,90,200, note 2 ) note(50,90,200, note 3 )
-
-
-
+---
     </pre>
     <script type="module" src="/src/index.js"></script>
   </body>

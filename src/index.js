@@ -10,6 +10,51 @@ import { vsCodeLight } from '@fsegurai/codemirror-theme-vscode-light'
 import {StateField, StateEffect} from "@codemirror/state"
 
 const MIN_NOTE_WIDTH = 50
+const DEBUG = false
+
+const MAX_ZOOM = 0.1
+const MIN_ZOOM = 1.0
+const ZOOM_STEP = 0.1
+const ZOOM_NONE = 1.0
+
+let zoom = ZOOM_NONE
+
+function setZoom() {
+  const svg = document.querySelector("#diagram svg");
+  svg.setAttribute('style',`transform: scale(${zoom})`)
+}
+
+
+const editorContainer = document.getElementById("editor-container")
+const diagramContainer = document.getElementById("diagram-container")
+const diagram = document.getElementById("diagram")
+const editor = document.getElementById("editor")
+const source = document.getElementById("seqcode").innerText
+const showEditor = document.getElementById('show-editor')
+
+showEditor.addEventListener('click', (ev) => {
+  diagramContainer.classList.remove('full-width')
+  showEditor.style.display = 'none'
+})
+
+document.getElementById('hideEditor').addEventListener('click', (ev) => {
+  diagramContainer.classList.add('full-width')
+  showEditor.style.display = 'block'
+})
+
+document.getElementById('zoomIn').addEventListener('click', (ev) => {
+  zoom = Math.min(MIN_ZOOM,zoom + ZOOM_STEP)
+  setZoom()
+},true)
+document.getElementById('zoomOut').addEventListener('click', (ev) => {
+  zoom = Math.max(MAX_ZOOM,zoom - ZOOM_STEP)
+  setZoom()
+},true)
+document.getElementById('zoomActual').addEventListener('click', (ev) => {
+  zoom = ZOOM_NONE
+  setZoom()
+})
+
 const sas = document.getElementById('saveAsSVG')
 
 sas.addEventListener('click', (ev) => {
@@ -94,9 +139,6 @@ sat.addEventListener('click', () => {
   sat.href = "data:text/plain;charset=utf-8," + encoded;
 })
 
-const diagram = document.getElementById("diagram")
-const editor = document.getElementById("editor")
-const source = document.getElementById("seqcode").innerText
 
 let wasMoved = false
 let mousedown = null
@@ -164,22 +206,25 @@ diagram.addEventListener('mouseup', (ev) => {
 let mouseIn = false
 diagram.addEventListener('mouseenter',() => {
   if (!mouseIn) {
-    console.log('mouseenter')
     mouseIn = true
     addNoteControls()
-  } else {
-    console.warn('mouseenter ev but already in')
   }
 },true);
 
-diagram.addEventListener('mouseleave',() => {
+diagram.addEventListener('mouseleave',(ev) => {
   if (mouseIn) {
-    console.log('mouseleave')
     mouseIn = false
     removeNoteControls()
+
+    if (mousedown) {
+      mousedown = null
+      render(view.state)
+    }
+
   } else {
-    console.warn("mouse leave but wasn't in")
+    if (DEBUG) console.warn("mouse leave but wasn't in")
   }
+  ev.preventDefault()
 })
 
 // TODO: export this from seqcode package
@@ -237,7 +282,7 @@ window.clickLink = function (link) {
     wasMoved = false
     return
   }
-  alert(link)
+  window.location = '/diagrams/'+link
 }
 
 const NOTE_HANDLE_SIZE = 10
@@ -249,7 +294,7 @@ const linkHandler = {
 
 function addNoteControls() {
   if (notes != null) {
-    console.error('note controls exist')
+    if (DEBUG) console.error('note controls exist')
     return
   }
   notes = getNotes(view.state)
@@ -268,7 +313,12 @@ function addNoteControls() {
     }
 
     if (sourceNote == null) {
-      console.error("unable to find source for note element")
+      if (DEBUG) {
+        console.error("unable to find source for note element")
+        console.log('looking for:',noteElement)
+        console.log('bbox',noteBBox)
+        console.log('notes',notes)
+      }
       continue
     }
 
@@ -330,7 +380,7 @@ function addNoteControls() {
       sourceNote.tempBackground.setAttribute("y", sourceNote.bb.y); // y-coordinate of the top-left corner
       sourceNote.tempBackground.setAttribute("width", sourceNote.bb.width); // width of the rectangle
       sourceNote.tempBackground.setAttribute("height", sourceNote.bb.height); // height of the rectangle
-      sourceNote.tempBackground.setAttribute("fill", "rgba(255,255,204,0.8)"); // fill color of the rectangle
+      sourceNote.tempBackground.setAttribute("fill", "#FFEB5B"); // fill color of the rectangle
       sourceNote.tempBackground.setAttribute("stroke","#eeeeee")
       sourceNote.tempBackground.setAttribute("stroke-width","1")
       noteElement.insertBefore(sourceNote.tempBackground,sourceNote.element.firstChild);
@@ -359,11 +409,21 @@ function addNoteControls() {
       let deltaY = ev.clientY - mousedown.y
 
       if (mousedown.translation) {
-        const newX = mousedown.translation.x + deltaX
-        const newY = mousedown.translation.y + deltaY
-        mousedown.note.setAttribute('transform', `translate(${newX}, ${newY})`);
+        let newTranslationX = mousedown.translation.x + deltaX
+        let newTranslationY = mousedown.translation.y + deltaY
+        let newX = mousedown.noteX + deltaX
+        if (newX<0) {
+          newTranslationX += -newX
+          newX = 0
+        }
+        let newY = mousedown.noteY + deltaY
+        if (newY<0) {
+          newTranslationY += -newY
+          newY = 0
+        }
+        mousedown.note.setAttribute('transform', `translate(${newTranslationX}, ${newTranslationY})`);
 
-        let newNoteText = `note( ${mousedown.noteX + deltaX}, ${mousedown.noteY + deltaY}, ${mousedown.sourceNote.w}, ${mousedown.sourceNote.text} )`
+        let newNoteText = `note( ${newX}, ${newY}, ${mousedown.sourceNote.w}, ${mousedown.sourceNote.text} )`
 
         view.dispatch({
           changes: { from: mousedown.sourceNote.from, to: mousedown.sourceNote.to, insert: newNoteText }
@@ -392,13 +452,13 @@ function addNoteControls() {
 
 function removeNoteControls() {
   if (notes == null) {
-    console.warn('removeNoteControls called when no controls')
+    if (DEBUG) console.warn('removeNoteControls called when no controls')
     return
   }
 
   for (let note of notes) {
-    note.element.removeChild(note.dragHandle)
-    note.element.removeChild(note.resizeHandle)
+    if (note.element && note.dragHandle) note.element.removeChild(note.dragHandle)
+    if (note.element && note.resizeHandle) note.element.removeChild(note.resizeHandle)
   }
   notes = null
   diagram.removeEventListener('mousemove',diagramMouseMove,true)
