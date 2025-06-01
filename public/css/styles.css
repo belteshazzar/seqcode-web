@@ -1,3 +1,4 @@
+
 html,body {
     padding:0;
     margin:0;
@@ -14,7 +15,11 @@ body {
     display: none;
     top: 20px;
     right: 20px;
-    background-color: #666;
+    background-color: #ccc;
+}
+
+#show-editor:hover {
+    background-color: #ddd;
 }
 
 main {
@@ -74,7 +79,8 @@ pre {
 .navbar {
     display: flex;
     flex-direction: row;
-    background-color: #666;
+    background-color: #ccc;
+    color: #333;
 }
 
 .dropdown {
@@ -84,8 +90,8 @@ pre {
 }
 
 .dropdown > a {
+  color: #333;
   background-color: none;
-  color: white;
   padding: 8px;
   font-size: 12px;
   margin: 0px;
@@ -97,14 +103,14 @@ pre {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  background-color: #ccc;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
 .dropdown-content a {
-  color: black;
+  color: #333;
   padding: 8px;
   text-decoration: none;
   display: block;
@@ -115,14 +121,13 @@ pre {
 
 .dropdown:not(.no-hover):hover .dropdown-content {display: block;}
 
-.dropdown:not(.no-hover):hover .dropbtn {background-color: #999;}
+.dropdown:not(.no-hover):hover .dropbtn {background-color: #ddd;}
 
 /* /menu */
 
 #editor {
     overflow: scroll;
     height: 100%;
-
     transition: all 5s;
     position: relative;
     top: 0;

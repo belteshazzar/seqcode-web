@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:bx="https://boxy-svg.com">
+  <rect width="512" height="512" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(255, 255, 255);"></rect>
+  <rect width="100" height="512" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(153, 153, 153);"></rect>
+  <rect width="100" height="512" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(153, 153, 153);" x="412"></rect>
+  <path d="M 221.173 580.446 H 563.173 L 563.173 542.446 L 633.173 598.446 L 563.173 654.446 L 563.173 616.446 H 221.173 V 580.446 Z" bx:shape="arrow 221.173 542.446 412 112 36 70 0 1@9a7ebd8f" style="stroke: rgb(0, 0, 0); fill: rgb(153, 153, 153); stroke-width: 0px; transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(1, -0.000013, 0.000013, 1, -221.172274, -422.443267)"></path>
+  <path d="M -221.173 -504.254 H 120.827 L 120.827 -542.254 L 190.827 -486.254 L 120.827 -430.254 L 120.827 -468.254 H -221.173 V -504.254 Z" bx:shape="arrow -221.173 -542.254 412 112 36 70 0 1@31555f49" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(153, 153, 153); transform-origin: -15.249px -486.274px;" transform="matrix(-1, -0.000013, -0.000013, 1, 321.297741, 822.255325)"></path>
+</svg>

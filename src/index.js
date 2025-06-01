@@ -467,7 +467,7 @@ function removeNoteControls() {
 
 function render(state) {
   const txt = state.doc.toString();
-  let { svg, errors } = seqcode(txt, { linkHandler })
+  let { svg, errors } = seqcode(txt, { foreground: '#666', linkHandler })
   diagram.innerHTML = svg
   if (notes) {
     removeNoteControls()
