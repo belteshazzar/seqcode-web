@@ -13,19 +13,20 @@
     <link rel="manifest" href="/img/site.webmanifest">
   </head>
   <body>
-    <main>
-        <div id="diagram-container">
+
+        <div class="pane" id="diagram-container">
             <div id="table">
                 <div id="cell">
                     <div id="diagram"></div>
                 </div>
             </div>
         </div>
-        <div id="editor-container">
+        <div class="pane" id="editor-container">
             <div class="navbar">
                 <div class="dropdown">
                     <a href="#" class="dropbtn">File</a>
                     <div class="dropdown-content">
+                        <a href="/diagrams/blank">New</a>
                         <a id="saveAsSVG" href="#" download="seqcode.svg">Save as SVG</a>
                         <a id="saveAsPNG" href="#" download="seqcode.png">Save as PNG</a>
                         <a id="saveAsTXT" href="#" download="diagram.seqcode">Save as TXT</a>
@@ -41,36 +42,34 @@
                     </div>
                 </div>
                 <div class="dropdown">
-                    <a href="#" class="dropbtn">Help</a>
-                    <div class="dropdown-content">
-                        <a href="/diagrams/basics">Basics</a>
-                        <a href="/diagrams/objects">Objects</a>
-                        <a href="/diagrams/notes">Notes</a>
-                    </div>
-                </div>
-                <div class="dropdown">
                     <a href="#" class="dropbtn">Reference</a>
                     <div class="dropdown-content">
                         <a href="/diagrams/uml-sequence-diagrams">Sequence Diagrams</a>
-                        <a href="/diagrams/uml-life-lines">+ Life Lines</a>
-                        <a href="/diagrams/uml-activation-boxes">+ Activation Boxes</a>
-                        <a href="/diagrams/uml-messages">+ Messages</a>
-                        <a href="/diagrams/uml-frames">+ Frames</a>
-                        <a href="/diagrams/uml-states-invariants">+ States & Invariants</a>
+                        <a href="/diagrams/uml-life-lines">Life Lines</a>
+                        <a href="/diagrams/uml-activation-boxes">Activation Boxes</a>
+                        <a href="/diagrams/uml-messages">Messages</a>
+                        <a href="/diagrams/uml-frames">Frames</a>
+                        <a href="/diagrams/uml-states-invariants">States & Invariants</a>
                         <a href="/diagrams/design-patterns">Design Patterns</a>
                     </div>
                 </div>
                 <div class="dropdown">
-                    <a href="#" class="dropbtn">About</a>
+                    <a href="#" class="dropbtn">Help</a>
                     <div class="dropdown-content">
-                        <a href="/diagrams/about">About</a>
-                        <a href="https://github.com/belteshazzar/seqcode" target="_blank">Github Repo</a>
+                        <a href="/diagrams/help-basics">Basics</a>
+                        <a href="/diagrams/help-objects">Objects</a>
+                        <a href="/diagrams/help-frames">Frames</a>
+                        <a href="/diagrams/help-notes">Notes</a>
+                        <a href="/diagrams/help-links">Links</a>
+                        <a href="/diagrams/help-advanced">Advanced</a>
+                        <a href="/diagrams/help-about">About</a>
                     </div>
                 </div>
             </div>
             <div id="editor"></div>
         </div>
-    </main>
+
+
     <div id="show-editor" class="dropdown">
         <a href="#" class="dropbtn">Edit</a>
     </div>

@@ -12,8 +12,8 @@ import {StateField, StateEffect} from "@codemirror/state"
 const MIN_NOTE_WIDTH = 50
 const DEBUG = false
 
-const MAX_ZOOM = 0.1
-const MIN_ZOOM = 1.0
+const MAX_ZOOM = 0.5
+const MIN_ZOOM = 2.0
 const ZOOM_STEP = 0.1
 const ZOOM_NONE = 1.0
 
@@ -21,7 +21,11 @@ let zoom = ZOOM_NONE
 
 function setZoom() {
   const svg = document.querySelector("#diagram svg");
-  svg.setAttribute('style',`transform: scale(${zoom})`)
+  const w = svg.getBBox().width
+  const h = svg.getBBox().height
+
+  svg.setAttribute('width',`${Math.floor(w*zoom)}px`)
+  svg.setAttribute('height', `${Math.floor(h*zoom)}px`)
 }
 
 
@@ -33,13 +37,11 @@ const source = document.getElementById("seqcode").innerText
 const showEditor = document.getElementById('show-editor')
 
 showEditor.addEventListener('click', (ev) => {
-  diagramContainer.classList.remove('full-width')
-  showEditor.style.display = 'none'
+  document.body.classList.remove('full-width')
 })
 
 document.getElementById('hideEditor').addEventListener('click', (ev) => {
-  diagramContainer.classList.add('full-width')
-  showEditor.style.display = 'block'
+  document.body.classList.add('full-width')
 })
 
 document.getElementById('zoomIn').addEventListener('click', (ev) => {
@@ -282,7 +284,7 @@ window.clickLink = function (link) {
     wasMoved = false
     return
   }
-  window.location = '/diagrams/'+link
+  window.location = link
 }
 
 const NOTE_HANDLE_SIZE = 10

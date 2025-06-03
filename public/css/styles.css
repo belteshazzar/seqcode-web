@@ -7,33 +7,33 @@ html,body {
 }
 
 body {
-    width:100%;
+    height: 100vh;
+}
+
+#main-container {
+    width: 100vw;
+    height: 100vh;
 }
 
 #show-editor {
+    z-index: 20;
     position: fixed;
-    display: none;
+    top: -200px;
+    right: 20px;
+    opacity: 0;
+    background-color: #ccc;
+    transition: all 0.5s allow-discrete;
+}
+
+body.full-width #show-editor {
     top: 20px;
     right: 20px;
-    background-color: #ccc;
+    opacity: 1;
+    transition: all 0.5s allow-discrete;
 }
 
 #show-editor:hover {
     background-color: #ddd;
-}
-
-main {
-    width:200%;
-    height:100vh;
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-}
-
-main > div {
-    width:25%;
-    height:100vh;
-    overflow: hidden;
 }
 
 pre {
@@ -41,35 +41,49 @@ pre {
 }
 
 #diagram-container {
-    padding: 0;
-    overflow: scroll;
+    z-index: 10;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 50%;
+    height: 100vh;
+    margin: 0;
+    overflow: auto;
     background-color: #555;
     transition: all 0.5s allow-discrete;
 }
 
-#diagram-container.full-width {
-    width: 50%;
+body.full-width #diagram-container {
+    width: 100%;
 }
 
 #table {
     display: table;
+    border-collapse: collapse;
+    padding: 0;
+    margin: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 #cell {
     display: table-cell;
+    width: 100%;
+    height: 100%;
     vertical-align: middle;
     text-align: center;
     padding: 50px;
-}
-#diagram {
-    margin: 0 auto;
-}
+    overflow: hidden;
 
-#diagram svg {
 }
 
 #editor-container {
+    z-index: 5;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 50%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -77,6 +91,7 @@ pre {
 /*  menu */
 
 .navbar {
+    flex: none;
     display: flex;
     flex-direction: row;
     background-color: #ccc;
@@ -123,21 +138,17 @@ pre {
 
 .dropdown:not(.no-hover):hover .dropbtn {background-color: #ddd;}
 
-/* /menu */
-
 #editor {
-    overflow: scroll;
-    height: 100%;
-    transition: all 5s;
-    position: relative;
-    top: 0;
+    flex: 1;
+    overflow: hidden;
 }
 
+/*
 #editor.full-width {
     position: relative;
     top: 100vh;
 }
-
+*/
 .cm-editor {
     height: 100%;
 }
