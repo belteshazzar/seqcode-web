@@ -132,6 +132,10 @@ body.full-width #diagram-container {
   font-size: 12px;
 }
 
+hr {
+  border: 2px solid #bbb;
+}
+
 .dropdown-content a:hover {background-color: #ddd;}
 
 .dropdown:not(.no-hover):hover .dropdown-content {display: block;}

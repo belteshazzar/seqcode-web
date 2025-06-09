@@ -448,8 +448,6 @@ function addNoteControls() {
     }
   }
   diagram.addEventListener('mousemove', diagramMouseMove, true);
-
-
 }
 
 function removeNoteControls() {
@@ -466,11 +464,16 @@ function removeNoteControls() {
   diagram.removeEventListener('mousemove',diagramMouseMove,true)
 }
 
-
 function render(state) {
   const txt = state.doc.toString();
-  let { svg, errors } = seqcode(txt, { foreground: '#666', linkHandler })
-  diagram.innerHTML = svg
+  let { svg, errors } = seqcode(txt, {
+    foreground: '#666',
+    linkHandler,
+    noteFontFace: '"Patrick Hand", cursive',
+    noteFontSize: 15,
+  })
+  diagram.innerHTML = ''
+  diagram.appendChild(svg.node)
   if (notes) {
     removeNoteControls()
   }
