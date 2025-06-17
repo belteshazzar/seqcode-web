@@ -7,7 +7,8 @@ import { basicSetup } from "codemirror"
 import { EditorView, ViewPlugin, Decoration } from "@codemirror/view";
 import { syntaxTree } from "@codemirror/language";
 import { vsCodeLight } from '@fsegurai/codemirror-theme-vscode-light'
-import {StateField, StateEffect} from "@codemirror/state"
+import { vsCodeDark } from '@fsegurai/codemirror-theme-vscode-dark'
+import {StateField, StateEffect, Compartment} from "@codemirror/state"
 
 const MIN_NOTE_WIDTH = 50
 const DEBUG = false
@@ -28,12 +29,55 @@ function setZoom() {
   svg.setAttribute('height', `${Math.floor(h*zoom)}px`)
 }
 
+function calculateSettingAsThemeString({ localStorageTheme, systemSettingDark }) {
+  if (localStorageTheme !== null) return localStorageTheme;
+  if (systemSettingDark.matches) return "dark";
+  return "light";
+}
+
+// https://whitep4nth3r.com/blog/best-light-dark-mode-theme-toggle-javascript/
+
+let currentTheme = calculateSettingAsThemeString({ 
+  localStorageTheme: localStorage.getItem("theme"),
+  systemSettingDark: window.matchMedia("(prefers-color-scheme: dark)")
+});
+const themeButton = document.getElementById('toggleTheme')
+const editorTheme = new Compartment()
+
+function setTheme() {
+
+  // update the button text
+  const newCta = currentTheme === "dark" ? "Light Theme" : "Dark Theme";
+  themeButton.innerText = newCta;  
+
+  // use an aria-label if you are omitting text on the button
+  // and using sun/moon icons, for example
+  themeButton.setAttribute("aria-label", newCta);
+
+  // update theme attribute on HTML to switch theme in CSS
+  document.querySelector("html").setAttribute("data-theme", currentTheme);
+
+  // update in local storage
+  localStorage.setItem("theme", currentTheme);
+
+  // set theme in code mirror
+  view.dispatch({
+    effects: editorTheme.reconfigure(currentTheme === "dark" ? vsCodeDark : vsCodeLight)
+  });
+}
+themeButton.addEventListener('click', (ev)  => {
+  currentTheme = currentTheme === "dark" ? "light" : "dark";
+  setTheme()
+  render(view.state)
+});
 
 const editorContainer = document.getElementById("editor-container")
 const diagramContainer = document.getElementById("diagram-container")
 const diagram = document.getElementById("diagram")
 const editor = document.getElementById("editor")
-const source = document.getElementById("seqcode").innerText
+const source = window.location.pathname == '/' && typeof localStorage.getItem('seqcode') === 'string' 
+  ? localStorage.getItem('seqcode')
+  : document.getElementById("seqcode").innerText;
 const showEditor = document.getElementById('show-editor')
 
 showEditor.addEventListener('click', (ev) => {
@@ -48,10 +92,12 @@ document.getElementById('zoomIn').addEventListener('click', (ev) => {
   zoom = Math.min(MIN_ZOOM,zoom + ZOOM_STEP)
   setZoom()
 },true)
+
 document.getElementById('zoomOut').addEventListener('click', (ev) => {
   zoom = Math.max(MAX_ZOOM,zoom - ZOOM_STEP)
   setZoom()
 },true)
+
 document.getElementById('zoomActual').addEventListener('click', (ev) => {
   zoom = ZOOM_NONE
   setZoom()
@@ -141,7 +187,6 @@ sat.addEventListener('click', () => {
   sat.href = "data:text/plain;charset=utf-8," + encoded;
 })
 
-
 let wasMoved = false
 let mousedown = null
 let diagramMouseMove = null
@@ -182,7 +227,7 @@ const view = new EditorView({
   extensions: [
     basicSetup,
     markField,
-    vsCodeLight,
+    editorTheme.of(currentTheme === "dark" ? vsCodeDark : vsCodeLight),
     seqcodeLang(),
     ViewPlugin.fromClass(class {
       constructor(view) { }
@@ -196,6 +241,7 @@ const view = new EditorView({
   ]
 })
 
+setTheme()
 
 diagram.addEventListener('mouseup', (ev) => {
   if (mousedown) {
@@ -464,14 +510,32 @@ function removeNoteControls() {
   diagram.removeEventListener('mousemove',diagramMouseMove,true)
 }
 
+const lightTheme = {
+  foreground: '#666',
+  noteFontFamily: '"Patrick Hand", cursive',
+  noteFontSize: 15,
+  linkHandler,
+}
+
+const darkTheme = {
+  background: '#1e1e1e',
+  foreground: '#d4d4d4',
+  noteLight: '#FFFDA1',
+  noteDark: '#FFEB5B',
+  noteStroke: '#ccc',
+  noteFontFamily: '"Patrick Hand", cursive',
+  noteFontSize: 15,
+  noteForeground: '#0000CD',
+  fillLight: '#333',
+  fillDark: '#444',
+  linkIconColor: "#999",
+  linkHandler,
+}
+
 function render(state) {
   const txt = state.doc.toString();
-  let { svg, errors } = seqcode(txt, {
-    foreground: '#666',
-    linkHandler,
-    noteFontFace: '"Patrick Hand", cursive',
-    noteFontSize: 15,
-  })
+  if (window.location.pathname == '/') localStorage.setItem('seqcode',txt)
+  let { svg, errors } = seqcode(txt, currentTheme == 'dark' ? darkTheme : lightTheme)
   diagram.innerHTML = ''
   diagram.appendChild(svg.node)
   if (notes) {

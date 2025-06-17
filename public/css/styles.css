@@ -1,4 +1,20 @@
 
+[data-theme="light"] {
+  --color-bg: #555;
+  --color-menu-separator: #bbb;
+  --color-menu: #ccc;
+  --color-menu-hover: #ddd;
+  --color-menu-fg: #333;
+}
+
+[data-theme="dark"] {
+  --color-bg: #222;
+  --color-menu-separator: #222;
+  --color-menu: #333;
+  --color-menu-hover: #444;
+  --color-menu-fg: #ddd;
+}
+
 html,body {
     padding:0;
     margin:0;
@@ -21,7 +37,7 @@ body {
     top: -200px;
     right: 20px;
     opacity: 0;
-    background-color: #ccc;
+    background-color: var(--color-menu);
     transition: all 0.5s allow-discrete;
 }
 
@@ -33,7 +49,7 @@ body.full-width #show-editor {
 }
 
 #show-editor:hover {
-    background-color: #ddd;
+    background-color: var(--color-menu-hover);
 }
 
 pre {
@@ -49,8 +65,8 @@ pre {
     height: 100vh;
     margin: 0;
     overflow: auto;
-    background-color: #555;
-    transition: all 0.5s allow-discrete;
+    background-color: var(--color-bg);
+    transition: width 0.5s allow-discrete;
 }
 
 body.full-width #diagram-container {
@@ -66,6 +82,7 @@ body.full-width #diagram-container {
     height: 100%;
     overflow: hidden;
 }
+
 #cell {
     display: table-cell;
     width: 100%;
@@ -74,7 +91,6 @@ body.full-width #diagram-container {
     text-align: center;
     padding: 50px;
     overflow: hidden;
-
 }
 
 #editor-container {
@@ -94,8 +110,8 @@ body.full-width #diagram-container {
     flex: none;
     display: flex;
     flex-direction: row;
-    background-color: #ccc;
-    color: #333;
+    background-color: var(--color-menu);
+    color: var(--color-menu-fg);
 }
 
 .dropdown {
@@ -105,7 +121,7 @@ body.full-width #diagram-container {
 }
 
 .dropdown > a {
-  color: #333;
+  color: var(--color-menu-fg);
   background-color: none;
   padding: 8px;
   font-size: 12px;
@@ -118,14 +134,14 @@ body.full-width #diagram-container {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #ccc;
+  background-color: var(--color-menu);
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
 .dropdown-content a {
-  color: #333;
+  color: var(--color-menu-fg);
   padding: 8px;
   text-decoration: none;
   display: block;
@@ -133,26 +149,20 @@ body.full-width #diagram-container {
 }
 
 hr {
-  border: 2px solid #bbb;
+  border: 2px solid var(--color-menu-separator);
 }
 
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {background-color: var(--color-menu-hover);}
 
 .dropdown:not(.no-hover):hover .dropdown-content {display: block;}
 
-.dropdown:not(.no-hover):hover .dropbtn {background-color: #ddd;}
+.dropdown:not(.no-hover):hover .dropbtn {background-color: var(--color-menu-hover);}
 
 #editor {
     flex: 1;
     overflow: hidden;
 }
 
-/*
-#editor.full-width {
-    position: relative;
-    top: 100vh;
-}
-*/
 .cm-editor {
     height: 100%;
 }
