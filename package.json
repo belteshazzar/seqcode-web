@@ -1,6 +1,6 @@
 {
   "name": "seqcode-web",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "type": "module",
   "main": "index.js",
@@ -31,6 +31,6 @@
     "@lezer/lr": "^1.4.2",
     "codemirror": "^6.0.1",
     "codemirror-lang-seqcode": "^0.1.1",
-    "seqcode": "^0.1.22"
+    "seqcode": "^0.1.23"
   }
 }
