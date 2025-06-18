@@ -555,19 +555,19 @@ function removeNoteControls() {
 
 const lightTheme = {
   foreground: '#666',
-  noteFontFamily: '"Patrick Hand", cursive',
-  noteFontSize: 15,
+  noteLight: '#FFFDA1',
+  noteDark: '#FFFDA1',
+  noteForeground: '#002ec7',
   linkHandler,
 }
 
 const darkTheme = {
   background: '#1e1e1e',
   foreground: '#d4d4d4',
-  noteLight: '#FFFDA1',
-  noteDark: '#FFEB5B',
-  noteStroke: '#ccc',
-  noteFontFamily: '"Patrick Hand", cursive',
-  noteFontSize: 15,
+  noteLight: '#FFD700',
+  noteDark: '#FFD700',
+  noteStroke: '#333',
+  noteFontSize: 12,
   noteForeground: '#0000CD',
   fillLight: '#333',
   fillDark: '#444',
