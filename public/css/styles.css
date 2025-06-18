@@ -166,3 +166,6 @@ hr {
 .cm-editor {
     height: 100%;
 }
+.cm-tooltip {
+    font-size: 12px;
+}

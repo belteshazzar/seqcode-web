@@ -1,6 +1,6 @@
 {
   "name": "seqcode-web",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "type": "module",
   "main": "index.js",
@@ -25,11 +25,12 @@
   },
   "dependencies": {
     "@codemirror/language": "^6.11.0",
+    "@codemirror/lint": "^6.8.5",
     "@codemirror/view": "^6.36.7",
     "@fsegurai/codemirror-theme-bundle": "^6.1.4",
     "@lezer/lr": "^1.4.2",
     "codemirror": "^6.0.1",
-    "codemirror-lang-seqcode": "^0.1.0",
+    "codemirror-lang-seqcode": "^0.1.1",
     "seqcode": "^0.1.22"
   }
 }

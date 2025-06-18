@@ -9,6 +9,7 @@ import { syntaxTree } from "@codemirror/language";
 import { vsCodeLight } from '@fsegurai/codemirror-theme-vscode-light'
 import { vsCodeDark } from '@fsegurai/codemirror-theme-vscode-dark'
 import {StateField, StateEffect, Compartment} from "@codemirror/state"
+import {linter} from "@codemirror/lint"
 
 const MIN_NOTE_WIDTH = 50
 const DEBUG = false
@@ -192,28 +193,69 @@ let mousedown = null
 let diagramMouseMove = null
 let notes = null
 
-// Effects can be attached to transactions to communicate with the extension
-const addMarks = StateEffect.define(), filterMarks = StateEffect.define()
+// // Effects can be attached to transactions to communicate with the extension
+// const addMarks = StateEffect.define(), filterMarks = StateEffect.define()
 
-// This value must be added to the set of extensions to enable this
-const markField = StateField.define({
-  // Start with an empty set of decorations
-  create() { return Decoration.none },
-  // This is called whenever the editor updates—it computes the new set
-  update(value, tr) {
-    // Move the decorations to account for document changes
-    value = value.map(tr.changes)
-    // If this transaction adds or removes decorations, apply those changes
-    for (let effect of tr.effects) {
-      if (effect.is(addMarks)) value = value.update({add: effect.value, sort: true})
-      else if (effect.is(filterMarks)) value = value.update({filter: effect.value})
+// // This value must be added to the set of extensions to enable this
+// const markField = StateField.define({
+//   // Start with an empty set of decorations
+//   create() { return Decoration.none },
+//   // This is called whenever the editor updates—it computes the new set
+//   update(value, tr) {
+//     // Move the decorations to account for document changes
+//     value = value.map(tr.changes)
+//     // If this transaction adds or removes decorations, apply those changes
+//     for (let effect of tr.effects) {
+//       if (effect.is(addMarks)) value = value.update({add: effect.value, sort: true})
+//       else if (effect.is(filterMarks)) value = value.update({filter: effect.value})
+//     }
+//     return value
+//   },
+//   // Indicate that this field provides a set of decorations
+//   provide: f => EditorView.decorations.from(f)
+// })
+let gErrors = null
+
+const regexpLinter = linter(view => {
+  let at = 0;
+  const lines = view.viewState.state.doc.text.map(l => {
+    const from = at;
+    at += l.length + 1
+    return {
+      from,
+      txt: l
     }
-    return value
-  },
-  // Indicate that this field provides a set of decorations
-  provide: f => EditorView.decorations.from(f)
-})
+  })
 
+  let diagnostics = []
+  if (gErrors) {
+    gErrors.forEach(e => {
+      const d = {
+        from: e.tok ? lines[e.tok.line-1].from + e.tok.col : at-1,
+        to: e.tok ? lines[e.tok.line-1].from + e.tok.col: at-1,
+        severity: "error",
+        message: e.expected,
+      }
+      diagnostics.push(d)
+    })
+  }
+
+
+
+  // syntaxTree(view.state).cursor().iterate(node => {
+  //   if (node.name == "RegExp") diagnostics.push({
+  //     from: node.from,
+  //     to: node.to,
+  //     severity: "warning",
+  //     message: "Regular expressions are FORBIDDEN",
+  //     actions: [{
+  //       name: "Remove",
+  //       apply(view, from, to) { view.dispatch({changes: {from, to}}) }
+  //     }]
+  //   })
+  // })
+  return diagnostics
+})
 
 const view = new EditorView({
   doc: source,
@@ -226,7 +268,8 @@ const view = new EditorView({
   },
   extensions: [
     basicSetup,
-    markField,
+    // markField,
+    regexpLinter,
     editorTheme.of(currentTheme === "dark" ? vsCodeDark : vsCodeLight),
     seqcodeLang(),
     ViewPlugin.fromClass(class {
@@ -536,6 +579,7 @@ function render(state) {
   const txt = state.doc.toString();
   if (window.location.pathname == '/') localStorage.setItem('seqcode',txt)
   let { svg, errors } = seqcode(txt, currentTheme == 'dark' ? darkTheme : lightTheme)
+  gErrors = errors
   diagram.innerHTML = ''
   diagram.appendChild(svg.node)
   if (notes) {
@@ -544,8 +588,6 @@ function render(state) {
   if (mouseIn) {
     addNoteControls()    
   }
-  if (errors) console.log(errors)
-
 }
 
 render(view.state)
