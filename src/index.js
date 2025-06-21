@@ -378,9 +378,9 @@ window.clickLink = function (link) {
 
 const NOTE_HANDLE_SIZE = 10
 const linkHandler = {
-  href: (link) => '#',
+  href: (link) => link,
   target: (link) => '',
-  onclick: (link) => `clickLink(decodeURIComponent("${encodeURIComponent(link)}"))`
+  onclick: (link) => ''//`clickLink(decodeURIComponent("${encodeURIComponent(link)}"))`
 }
 
 function addNoteControls() {
