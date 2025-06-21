@@ -218,7 +218,7 @@ let gErrors = null
 
 const regexpLinter = linter(view => {
   let at = 0;
-  const lines = view.viewState.state.doc.text.map(l => {
+  const lines = view.viewState.state.doc.toString().split('\n').map(l => {
     const from = at;
     at += l.length + 1
     return {
